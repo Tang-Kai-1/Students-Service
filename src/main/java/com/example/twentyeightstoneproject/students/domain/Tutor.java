@@ -23,12 +23,6 @@ public class Tutor {
         this.lastName = lastName;
     }
 
-    public Tutor(Long id, @NotNull String firstName, @NotNull String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
     public Tutor() {
     }
 

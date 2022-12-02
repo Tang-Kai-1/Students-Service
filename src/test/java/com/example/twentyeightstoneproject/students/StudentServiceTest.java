@@ -99,7 +99,7 @@ public class StudentServiceTest {
     @DisplayName("Should not be able to add Course with non-existent Tutor")
     void cannotAddCourseWithInvalidTutorTest(){
         ResponseStatusException thrown = assertThrows(ResponseStatusException.class, () -> {
-            studentService.addCourse(new CreateCourseRequest("English", new Tutor(5L, "Doesn't", "Exist")));
+            studentService.addCourse(new CreateCourseRequest("English", new Tutor("Doesn't", "Exist")));
         });
         assertEquals("Tutor not found!", thrown.getReason());
     }
@@ -110,7 +110,7 @@ public class StudentServiceTest {
         ResponseStatusException thrown = assertThrows(ResponseStatusException.class, () -> {
             studentService.addStudent(new CreateStudentRequest(
                     "Frank","Gallager", new ArrayList<Course>(
-                            Arrays.asList(new Course("English",new Tutor(5L, "Doesn't", "Exist"))))));
+                            Arrays.asList(new Course("English",new Tutor("Doesn't", "Exist"))))));
         });
         assertEquals("Course not found, student cannot be added!", thrown.getReason());
     }
