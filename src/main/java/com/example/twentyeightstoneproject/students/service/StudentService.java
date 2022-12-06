@@ -20,9 +20,9 @@ import java.util.List;
 @Service
 public class StudentService {
 
-    private StudentRepository studentRepository;
-    private TutorsRepository tutorsRepository;
-    private CourseRepository courseRepository;
+    private final StudentRepository studentRepository;
+    private final TutorsRepository tutorsRepository;
+    private final CourseRepository courseRepository;
 
     public StudentService(StudentRepository studentRepository, TutorsRepository tutorsRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
@@ -31,13 +31,14 @@ public class StudentService {
     }
 
     public ResponseEntity<Student> addStudent(CreateStudentRequest createStudentRequest) {
-        if (createStudentRequest.getCourses().stream().anyMatch(c -> courseRepository.findById(c.getCourseName()).orElse(null) == null)) {
+        if (createStudentRequest.getCourses().stream().anyMatch(c -> courseRepository.findById(c.getCourseName()).isEmpty())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course not found, student cannot be added!");
         }
         List<Course> courses = new ArrayList<>();
         for (Course course : createStudentRequest.getCourses()) {
-            courses.add(courseRepository.findById(course.getCourseName()).orElse(null));
+            courseRepository.findById(course.getCourseName()).ifPresent(courses::add);
         }
+
         Student student = new Student(createStudentRequest.getFirstName(), createStudentRequest.getLastName(), courses);
         return new ResponseEntity<>(studentRepository.saveAndFlush(student), HttpStatus.OK);
     }

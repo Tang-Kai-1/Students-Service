@@ -2,8 +2,9 @@ package com.example.twentyeightstoneproject.students.domain;
 
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
-import java.util.List;
 
+import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -64,4 +65,15 @@ public class Student {
         this.courseList = courseList;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student student)) return false;
+        return firstName.equals(student.firstName) && lastName.equals(student.lastName) && courseList.equals(student.courseList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, courseList);
+    }
 }

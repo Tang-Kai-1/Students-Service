@@ -3,7 +3,7 @@ Made with Java (version 17) H2 database and Maven.
 
 ### How to start
 
-            mvn spring-boot:run
+            ./mvnw spring-boot:run
 
 
 ### Swagger
